@@ -30,29 +30,28 @@ class ViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		registerForKeyboardNotifications()
-
-//		let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: 150, height: 150)  )
-//		accessoryView.backgroundColor = .green
-//		textField.inputAccessoryView = accessoryView
 	}
 
+	var isActive = false
+
 	@IBAction fileprivate func xButtonTapped() {
-		print("\(#function)")
+		UIView.animate(withDuration: 1.5) {
+			DispatchQueue.main.async {
+				self.bottomContstraint.constant = self.isActive ? -216 : 0
+				self.view.layoutIfNeeded()
+			}
 
-//		tableView.setContentOffset(<#T##contentOffset: CGPoint##CGPoint#>, animated: <#T##Bool#>)
-
-
+		}
+		isActive = !isActive
 	}
 
 	@IBAction fileprivate func sendButtonTapped() {
-		print("\(#function)")
 		bottomContstraint.constant =  bottomContstraint.constant == 0 ? -250 : 0
 		view.layoutIfNeeded()
-		let lastSectionIndex = tableView.numberOfSections - 1
-		let lastRowInLastSectionIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
-		let indexPath = IndexPath(row: lastRowInLastSectionIndex, section: lastSectionIndex)
-		tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-
+//		let lastSectionIndex = tableView.numberOfSections - 1
+//		let lastRowInLastSectionIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+//		let indexPath = IndexPath(row: lastRowInLastSectionIndex, section: lastSectionIndex)
+//		tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
 	}
 
 }
@@ -60,17 +59,17 @@ class ViewController: UIViewController {
 
 // MARK: - Behaviour to prevent keyboard overlapping
 extension ViewController {
-	func registerForKeyboardNotifications(){
+	func registerForKeyboardNotifications() {
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown(notification:)), name: .UIKeyboardWillShow, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(notification:)), name: .UIKeyboardWillHide, object: nil)
 	}
 
-	func deregisterFromKeyboardNotifications(){
+	func deregisterFromKeyboardNotifications() {
 		NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
 		NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
 	}
 
-	@objc func keyboardWasShown(notification: NSNotification){
+	@objc func keyboardWasShown(notification: NSNotification) {
 		//Need to calculate keyboard exact size due to Apple suggestions
 //		self.scrollView.isScrollEnabled = true
 		var info = notification.userInfo!
@@ -78,27 +77,27 @@ extension ViewController {
 
 		print("keyboardSize = \(keyboardSize!)")
 
-		let contentInsets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize!.height, 0.0)
-
-//		self.scrollView.contentInset = contentInsets
-//		self.scrollView.scrollIndicatorInsets = contentInsets
-		self.tableView.contentInset = contentInsets
-		self.tableView.scrollIndicatorInsets = contentInsets
-
-		var aRect : CGRect = self.view.frame
-		aRect.size.height -= keyboardSize!.height
-//		if let activeField = self.activeField {
-//			if (!aRect.contains(activeField.frame.origin)){
-//				self.scrollView.scrollRectToVisible(activeField.frame, animated: true)
-//			}
-//		}
-//		if let activeField = self.textField {
-//			if (!aRect.contains(activeField.frame.origin)){
-//				self.scrollView.scrollRectToVisible(activeField.frame, animated: true)
-				let lastSectionIndex = tableView.numberOfSections - 1
-				let lastRowInLastSectionIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
-				let indexPath = IndexPath(row: lastRowInLastSectionIndex, section: lastSectionIndex)
-				self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+//		let contentInsets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize!.height, 0.0)
+//
+////		self.scrollView.contentInset = contentInsets
+////		self.scrollView.scrollIndicatorInsets = contentInsets
+//		self.tableView.contentInset = contentInsets
+//		self.tableView.scrollIndicatorInsets = contentInsets
+//
+//		var aRect : CGRect = self.view.frame
+//		aRect.size.height -= keyboardSize!.height
+////		if let activeField = self.activeField {
+////			if (!aRect.contains(activeField.frame.origin)){
+////				self.scrollView.scrollRectToVisible(activeField.frame, animated: true)
+////			}
+////		}
+////		if let activeField = self.textField {
+////			if (!aRect.contains(activeField.frame.origin)){
+////				self.scrollView.scrollRectToVisible(activeField.frame, animated: true)
+//				let lastSectionIndex = tableView.numberOfSections - 1
+//				let lastRowInLastSectionIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+//				let indexPath = IndexPath(row: lastRowInLastSectionIndex, section: lastSectionIndex)
+//				self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
 //			}
 //		}
 
@@ -108,28 +107,21 @@ extension ViewController {
 
 	}
 
-	@objc func keyboardWillBeHidden(notification: NSNotification){
+	@objc func keyboardWillBeHidden(notification: NSNotification) {
 		//Once keyboard disappears, restore original positions
 		var info = notification.userInfo!
 		let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
-		let contentInsets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, -keyboardSize!.height, 0.0)
+//		let contentInsets: UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, -keyboardSize!.height, 0.0)
+
 //		self.scrollView.contentInset = contentInsets
 //		self.scrollView.scrollIndicatorInsets = contentInsets
 //		self.view.endEditing(true)
 //		self.scrollView.isScrollEnabled = false
-		tableView.contentInset = contentInsets
-		tableView.scrollIndicatorInsets = contentInsets
+
+		print("keyboard size = \(keyboardSize!)")
+//		tableView.contentInset = contentInsets
+//		tableView.scrollIndicatorInsets = contentInsets
 	}
-
-	//	func textFieldDidBeginEditing(_ textField: UITextField){
-	//		activeField = textField
-	//	}
-	//
-	//	func textFieldDidEndEditing(_ textField: UITextField){
-	//		activeField = nil
-	//	}
-
-
 }
 
 
