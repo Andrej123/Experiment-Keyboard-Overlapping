@@ -10,18 +10,18 @@ import UIKit
 
 class SimpleViewController: UIViewController {
 
-	@IBOutlet fileprivate var redView: UIView!
 	@IBOutlet fileprivate var greenView: UIView!
 	@IBOutlet fileprivate var orangeView: UIView!
 	@IBOutlet fileprivate var textField: UITextField!
-	@IBOutlet fileprivate var redViewHeightConstraiont: NSLayoutConstraint!
+	@IBOutlet fileprivate var keyboardFrameMatchingView: UIView!
+	@IBOutlet fileprivate var keyboardFrameMatchingViewHeightConstraint: NSLayoutConstraint!
 
 
 	fileprivate let offset: CGFloat = 10
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		redViewHeightConstraiont.constant = offset
+		keyboardFrameMatchingViewHeightConstraint.constant = offset
 		registerForKeyboardNotifications()
     }
 
@@ -74,7 +74,7 @@ extension SimpleViewController {
 		let keyboardHeight = keyboardHeightValue.cgRectValue.height
 		let animationOptions = UIViewAnimationOptions(rawValue: curveRaw)
 		UIView.animate(withDuration: duration, delay: 0, options: animationOptions, animations: {
-			self.redViewHeightConstraiont.constant = keyboardHeight + self.offset
+			self.keyboardFrameMatchingViewHeightConstraint.constant = keyboardHeight + self.offset
 			self.view.layoutIfNeeded()
 		}, completion: nil)
 	}
@@ -86,7 +86,7 @@ extension SimpleViewController {
 		}
 		let animationOptions = UIViewAnimationOptions(rawValue: curveRaw)
 		UIView.animate(withDuration: duration, delay: 0, options: animationOptions, animations: {
-			self.redViewHeightConstraiont.constant = self.offset
+			self.keyboardFrameMatchingViewHeightConstraint.constant = self.offset
 			self.view.layoutIfNeeded()
 		})
 	}

@@ -250,9 +250,9 @@
                     </view>
                     <connections>
                         <outlet property="greenView" destination="eKf-Gv-jKX" id="UMc-iD-gMB"/>
+                        <outlet property="keyboardFrameMatchingView" destination="jJp-nm-F0c" id="pWM-t8-Dfp"/>
+                        <outlet property="keyboardFrameMatchingViewHeightConstraint" destination="qA0-FH-1zD" id="1PZ-8d-i8A"/>
                         <outlet property="orangeView" destination="Uwv-OD-9jB" id="gq7-al-WUS"/>
-                        <outlet property="redView" destination="jJp-nm-F0c" id="pWM-t8-Dfp"/>
-                        <outlet property="redViewHeightConstraiont" destination="qA0-FH-1zD" id="1PZ-8d-i8A"/>
                         <outlet property="textField" destination="3Lf-qQ-zmo" id="plf-Pw-kiz"/>
                     </connections>
                 </viewController>
