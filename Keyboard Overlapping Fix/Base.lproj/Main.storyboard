@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LAt-4B-D4e">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Cev-bU-mPO">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -61,8 +61,8 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="r2L-4o-ENk">
-                                <rect key="frame" x="0.0" y="103" width="375" height="617"/>
-                                <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <rect key="frame" x="0.0" y="103" width="375" height="643"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="98g-yW-voF">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
@@ -79,7 +79,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9hS-MF-oev" userLabel="Shadow View">
-                                <rect key="frame" x="30" y="728" width="315" height="50"/>
+                                <rect key="frame" x="30" y="754" width="315" height="50"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eA2-Lp-8B5" userLabel="Clipping View">
                                         <rect key="frame" x="0.0" y="0.0" width="315" height="50"/>
@@ -128,24 +128,35 @@
                                     <constraint firstAttribute="trailing" secondItem="eA2-Lp-8B5" secondAttribute="trailing" id="zIb-BU-E0t"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jB3-XW-Ih9">
+                                <rect key="frame" x="0.0" y="812" width="375" height="0.0"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="ecf-Fm-bAe"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.2527923882" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="vLX-vh-HNe" firstAttribute="top" secondItem="AHv-vH-5br" secondAttribute="top" id="136-r3-6oo"/>
                             <constraint firstItem="9hS-MF-oev" firstAttribute="top" secondItem="r2L-4o-ENk" secondAttribute="bottom" constant="8" id="289-M1-zNq"/>
+                            <constraint firstItem="jB3-XW-Ih9" firstAttribute="top" secondItem="9hS-MF-oev" secondAttribute="bottom" constant="8" id="5Lg-1h-9Tk"/>
                             <constraint firstItem="AHv-vH-5br" firstAttribute="trailing" secondItem="9hS-MF-oev" secondAttribute="trailing" constant="30" id="A3s-eN-HF4"/>
                             <constraint firstItem="vLX-vh-HNe" firstAttribute="leading" secondItem="AHv-vH-5br" secondAttribute="leading" id="NDt-N6-ApQ"/>
                             <constraint firstItem="r2L-4o-ENk" firstAttribute="leading" secondItem="AHv-vH-5br" secondAttribute="leading" id="TYG-2G-6Ab"/>
                             <constraint firstItem="vLX-vh-HNe" firstAttribute="trailing" secondItem="AHv-vH-5br" secondAttribute="trailing" id="aoE-2h-Fqn"/>
                             <constraint firstItem="r2L-4o-ENk" firstAttribute="top" secondItem="vLX-vh-HNe" secondAttribute="bottom" constant="8" id="bSp-n7-t0E"/>
+                            <constraint firstItem="jB3-XW-Ih9" firstAttribute="trailing" secondItem="AHv-vH-5br" secondAttribute="trailing" id="fRJ-ui-mAS"/>
+                            <constraint firstAttribute="bottom" secondItem="jB3-XW-Ih9" secondAttribute="bottom" id="h2K-Zo-Yh4"/>
+                            <constraint firstItem="jB3-XW-Ih9" firstAttribute="leading" secondItem="AHv-vH-5br" secondAttribute="leading" id="hrs-X0-Ipn"/>
                             <constraint firstItem="r2L-4o-ENk" firstAttribute="trailing" secondItem="AHv-vH-5br" secondAttribute="trailing" id="kL8-Eo-NMS"/>
                             <constraint firstItem="9hS-MF-oev" firstAttribute="leading" secondItem="AHv-vH-5br" secondAttribute="leading" constant="30" id="oT9-JD-5z1"/>
-                            <constraint firstItem="9hS-MF-oev" firstAttribute="bottom" secondItem="AHv-vH-5br" secondAttribute="bottom" id="puB-J2-P5T"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="AHv-vH-5br"/>
                     </view>
                     <connections>
-                        <outlet property="bottomContstraint" destination="puB-J2-P5T" id="WW8-27-tYu"/>
+                        <outlet property="keyboardFrameMatchingView" destination="jB3-XW-Ih9" id="6uD-1Y-7gp"/>
+                        <outlet property="keyboardFrameMatchingViewHeightConstraint" destination="ecf-Fm-bAe" id="vMY-jV-Ngg"/>
                         <outlet property="sendButton" destination="HX6-DY-VWu" id="3dC-Y9-Lkw"/>
                         <outlet property="tableView" destination="r2L-4o-ENk" id="JGN-0c-8VJ"/>
                         <outlet property="textField" destination="10d-Vg-Wt4" id="nlg-K5-bL1"/>
@@ -155,7 +166,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uvb-OW-eqT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-748" y="133"/>
+            <point key="canvasLocation" x="-748" y="132.26600985221674"/>
         </scene>
         <!--Simple View Controller-->
         <scene sceneID="T7m-7M-b4M">

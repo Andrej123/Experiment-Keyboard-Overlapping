@@ -24,35 +24,21 @@ class ViewController: UIViewController {
 	@IBOutlet fileprivate var sendButton: UIButton!
 	@IBOutlet fileprivate var tableView: UITableView!
 	@IBOutlet fileprivate var textField: UITextField!
-	@IBOutlet fileprivate var bottomContstraint: NSLayoutConstraint!
+	@IBOutlet fileprivate var keyboardFrameMatchingView: UIView!
+	@IBOutlet fileprivate var keyboardFrameMatchingViewHeightConstraint: NSLayoutConstraint!
 
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		registerForKeyboardNotifications()
-
-//		let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: 150, height: 150)  )
-//		accessoryView.backgroundColor = .green
-//		textField.inputAccessoryView = accessoryView
 	}
 
 	@IBAction fileprivate func xButtonTapped() {
-		print("\(#function)")
-
-//		tableView.setContentOffset(<#T##contentOffset: CGPoint##CGPoint#>, animated: <#T##Bool#>)
-
-
+		textField.resignFirstResponder()
 	}
 
 	@IBAction fileprivate func sendButtonTapped() {
-		print("\(#function)")
-		bottomContstraint.constant =  bottomContstraint.constant == 0 ? -250 : 0
-		view.layoutIfNeeded()
-		let lastSectionIndex = tableView.numberOfSections - 1
-		let lastRowInLastSectionIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
-		let indexPath = IndexPath(row: lastRowInLastSectionIndex, section: lastSectionIndex)
-		tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-
+		textField.resignFirstResponder()
 	}
 
 }
@@ -71,65 +57,30 @@ extension ViewController {
 	}
 
 	@objc func keyboardWasShown(notification: NSNotification){
-		//Need to calculate keyboard exact size due to Apple suggestions
-//		self.scrollView.isScrollEnabled = true
-		var info = notification.userInfo!
-		let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
-
-		print("keyboardSize = \(keyboardSize!)")
-
-		let contentInsets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize!.height, 0.0)
-
-//		self.scrollView.contentInset = contentInsets
-//		self.scrollView.scrollIndicatorInsets = contentInsets
-		self.tableView.contentInset = contentInsets
-		self.tableView.scrollIndicatorInsets = contentInsets
-
-		var aRect : CGRect = self.view.frame
-		aRect.size.height -= keyboardSize!.height
-//		if let activeField = self.activeField {
-//			if (!aRect.contains(activeField.frame.origin)){
-//				self.scrollView.scrollRectToVisible(activeField.frame, animated: true)
-//			}
-//		}
-//		if let activeField = self.textField {
-//			if (!aRect.contains(activeField.frame.origin)){
-//				self.scrollView.scrollRectToVisible(activeField.frame, animated: true)
-				let lastSectionIndex = tableView.numberOfSections - 1
-				let lastRowInLastSectionIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
-				let indexPath = IndexPath(row: lastRowInLastSectionIndex, section: lastSectionIndex)
-				self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-//			}
-//		}
-
-
-
-
-
+		guard let keyboardHeightValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue,
+			let duration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval,
+			let curveRaw = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? UInt else {
+				return
+		}
+		let keyboardHeight = keyboardHeightValue.cgRectValue.height
+		let animationOptions = UIViewAnimationOptions(rawValue: curveRaw)
+		UIView.animate(withDuration: duration, delay: 0, options: animationOptions, animations: {
+			self.keyboardFrameMatchingViewHeightConstraint.constant = keyboardHeight
+			self.view.layoutIfNeeded()
+		}, completion: nil)
 	}
 
 	@objc func keyboardWillBeHidden(notification: NSNotification){
-		//Once keyboard disappears, restore original positions
-		var info = notification.userInfo!
-		let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
-		let contentInsets : UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, -keyboardSize!.height, 0.0)
-//		self.scrollView.contentInset = contentInsets
-//		self.scrollView.scrollIndicatorInsets = contentInsets
-//		self.view.endEditing(true)
-//		self.scrollView.isScrollEnabled = false
-		tableView.contentInset = contentInsets
-		tableView.scrollIndicatorInsets = contentInsets
+		guard let duration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? Double,
+			let curveRaw = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? UInt else {
+				return
+		}
+		let animationOptions = UIViewAnimationOptions(rawValue: curveRaw)
+		UIView.animate(withDuration: duration, delay: 0, options: animationOptions, animations: {
+			self.keyboardFrameMatchingViewHeightConstraint.constant = 0
+			self.view.layoutIfNeeded()
+		})
 	}
-
-	//	func textFieldDidBeginEditing(_ textField: UITextField){
-	//		activeField = textField
-	//	}
-	//
-	//	func textFieldDidEndEditing(_ textField: UITextField){
-	//		activeField = nil
-	//	}
-
-
 }
 
 
@@ -166,7 +117,10 @@ extension ViewController: UITableViewDelegate {
 
 // MARK: - UITextFieldDelegate
 extension ViewController: UITextFieldDelegate {
-
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+		textField.resignFirstResponder()
+		return true
+	}
 }
 
 
