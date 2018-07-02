@@ -28,10 +28,11 @@ class ViewController: UIViewController {
 	@IBOutlet fileprivate var keyboardFrameMatchingView: UIView!
 	@IBOutlet fileprivate var keyboardFrameMatchingViewHeightConstraint: NSLayoutConstraint!
 
+	var keyboardAvoider: KeyboardAvoider?
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		registerForKeyboardNotifications()
+		keyboardAvoider = KeyboardAvoider(keyboardFrameMatchingViewHeightConstraint: keyboardFrameMatchingViewHeightConstraint, superview: view, animationCompletion: { [weak self] in self?.scrollToBottom() })
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -55,51 +56,6 @@ class ViewController: UIViewController {
 	}
 
 }
-
-
-// MARK: - Behaviour to prevent keyboard overlapping
-extension ViewController {
-	func registerForKeyboardNotifications() {
-		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeShown), name: .UIKeyboardWillShow, object: nil)
-		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(notification:)), name: .UIKeyboardWillHide, object: nil)
-	}
-
-	func deregisterFromKeyboardNotifications() {
-		NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
-		NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
-	}
-
-	@objc func keyboardWillBeShown(notification: NSNotification) {
-		guard let keyboardHeightValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue,
-			let duration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval,
-			let curveRaw = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? UInt else {
-				return
-		}
-		let keyboardHeight = keyboardHeightValue.cgRectValue.height
-		let animationOptions = UIViewAnimationOptions(rawValue: curveRaw)
-		UIView.animate(withDuration: duration, delay: 0, options: animationOptions, animations: {
-			self.keyboardFrameMatchingViewHeightConstraint.constant = keyboardHeight
-			self.view.layoutIfNeeded()
-		}, completion: { _ in
-			self.scrollToBottom()
-		})
-	}
-
-	@objc func keyboardWillBeHidden(notification: NSNotification) {
-		guard let duration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? Double,
-			let curveRaw = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? UInt else {
-				return
-		}
-		let animationOptions = UIViewAnimationOptions(rawValue: curveRaw)
-		UIView.animate(withDuration: duration, delay: 0, options: animationOptions, animations: {
-			self.keyboardFrameMatchingViewHeightConstraint.constant = 0
-			self.view.layoutIfNeeded()
-		}, completion: { _ in
-			self.scrollToBottom()
-		})
-	}
-}
-
 
 
 // MARK: - UITableViewDataSource

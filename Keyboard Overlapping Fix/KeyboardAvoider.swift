@@ -51,8 +51,8 @@ class KeyboardAvoider {
 		UIView.animate(withDuration: duration, delay: 0, options: animationOptions, animations: {
 			self.keyboardFrameMatchingViewHeightConstraint.constant = keyboardHeight
 			self.superview.layoutIfNeeded()
-		}, completion: { [unowned self] completed in
-			self.animationCompletion?()
+		}, completion: { [weak self] completed in
+			self?.animationCompletion?()
 		})
 	}
 
@@ -65,8 +65,8 @@ class KeyboardAvoider {
 		UIView.animate(withDuration: duration, delay: 0, options: animationOptions, animations: {
 			self.keyboardFrameMatchingViewHeightConstraint.constant = 0
 			self.superview.layoutIfNeeded()
-		}, completion: { [unowned self] completed in
-			self.animationCompletion?()
+		}, completion: { [weak self] completed in
+			self?.animationCompletion?()
 		})
 	}
 
