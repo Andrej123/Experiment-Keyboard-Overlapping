@@ -15,10 +15,14 @@ class KeyboardAvoider {
 
 	fileprivate var keyboardFrameMatchingViewHeightConstraint: NSLayoutConstraint
 	fileprivate var superview: UIView
+	fileprivate var animationCompletion: (()->Void)?
 
-	init(keyboardFrameMatchingViewHeightConstraint: NSLayoutConstraint, superview: UIView) {
+	//TODO: Be careful, there might be some memory leaks with the above parameters. Should verify that.
+
+	init(keyboardFrameMatchingViewHeightConstraint: NSLayoutConstraint, superview: UIView, animationCompletion: (()->Void)? = nil) {
 		self.keyboardFrameMatchingViewHeightConstraint = keyboardFrameMatchingViewHeightConstraint
 		self.superview = superview
+		self.animationCompletion = animationCompletion
 		registerForKeyboardNotifications()
 	}
 
@@ -47,7 +51,9 @@ class KeyboardAvoider {
 		UIView.animate(withDuration: duration, delay: 0, options: animationOptions, animations: {
 			self.keyboardFrameMatchingViewHeightConstraint.constant = keyboardHeight
 			self.superview.layoutIfNeeded()
-		}, completion: nil)
+		}, completion: { [unowned self] completed in
+			self.animationCompletion?()
+		})
 	}
 
 	@objc func keyboardWillBeHidden(notification: NSNotification) {
@@ -59,6 +65,8 @@ class KeyboardAvoider {
 		UIView.animate(withDuration: duration, delay: 0, options: animationOptions, animations: {
 			self.keyboardFrameMatchingViewHeightConstraint.constant = 0
 			self.superview.layoutIfNeeded()
+		}, completion: { [unowned self] completed in
+			self.animationCompletion?()
 		})
 	}
 
