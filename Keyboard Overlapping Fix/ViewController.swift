@@ -34,6 +34,18 @@ class ViewController: UIViewController {
 		registerForKeyboardNotifications()
 	}
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		scrollToBottom()
+	}
+
+	fileprivate func scrollToBottom() {
+		let numberOfRows = tableView.numberOfRows(inSection: 0) - 1
+		let indexPath = IndexPath(item: numberOfRows, section: 0)
+		tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+	}
+
+
 	@IBAction fileprivate func xButtonTapped() {
 		textField.resignFirstResponder()
 	}
@@ -47,17 +59,17 @@ class ViewController: UIViewController {
 
 // MARK: - Behaviour to prevent keyboard overlapping
 extension ViewController {
-	func registerForKeyboardNotifications(){
-		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown(notification:)), name: .UIKeyboardWillShow, object: nil)
+	func registerForKeyboardNotifications() {
+		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeShown), name: .UIKeyboardWillShow, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(notification:)), name: .UIKeyboardWillHide, object: nil)
 	}
 
-	func deregisterFromKeyboardNotifications(){
+	func deregisterFromKeyboardNotifications() {
 		NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
 		NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
 	}
 
-	@objc func keyboardWasShown(notification: NSNotification){
+	@objc func keyboardWillBeShown(notification: NSNotification) {
 		guard let keyboardHeightValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue,
 			let duration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval,
 			let curveRaw = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? UInt else {
@@ -68,10 +80,12 @@ extension ViewController {
 		UIView.animate(withDuration: duration, delay: 0, options: animationOptions, animations: {
 			self.keyboardFrameMatchingViewHeightConstraint.constant = keyboardHeight
 			self.view.layoutIfNeeded()
-		}, completion: nil)
+		}, completion: { _ in
+			self.scrollToBottom()
+		})
 	}
 
-	@objc func keyboardWillBeHidden(notification: NSNotification){
+	@objc func keyboardWillBeHidden(notification: NSNotification) {
 		guard let duration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? Double,
 			let curveRaw = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? UInt else {
 				return
@@ -80,6 +94,8 @@ extension ViewController {
 		UIView.animate(withDuration: duration, delay: 0, options: animationOptions, animations: {
 			self.keyboardFrameMatchingViewHeightConstraint.constant = 0
 			self.view.layoutIfNeeded()
+		}, completion: { _ in
+			self.scrollToBottom()
 		})
 	}
 }
