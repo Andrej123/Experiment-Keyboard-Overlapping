@@ -193,19 +193,6 @@
                                     <constraint firstAttribute="height" constant="128" id="1Dl-kX-s9s"/>
                                 </constraints>
                             </view>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3Lf-qQ-zmo">
-                                <rect key="frame" x="16" y="82" width="343" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jJp-nm-F0c">
-                                <rect key="frame" x="67" y="521" width="240" height="291"/>
-                                <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="291" id="qA0-FH-1zD"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eKf-Gv-jKX">
                                 <rect key="frame" x="67" y="256" width="240" height="128"/>
                                 <color key="backgroundColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -213,6 +200,19 @@
                                     <constraint firstAttribute="height" constant="128" id="Gyy-Eb-NFF"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jJp-nm-F0c">
+                                <rect key="frame" x="67" y="521" width="240" height="291"/>
+                                <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="291" id="qA0-FH-1zD"/>
+                                </constraints>
+                            </view>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3Lf-qQ-zmo">
+                                <rect key="frame" x="16" y="82" width="343" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -243,6 +243,7 @@
                         <outlet property="greenView" destination="eKf-Gv-jKX" id="UMc-iD-gMB"/>
                         <outlet property="orangeView" destination="Uwv-OD-9jB" id="gq7-al-WUS"/>
                         <outlet property="redView" destination="jJp-nm-F0c" id="pWM-t8-Dfp"/>
+                        <outlet property="redViewHeightConstraiont" destination="qA0-FH-1zD" id="1PZ-8d-i8A"/>
                         <outlet property="textField" destination="3Lf-qQ-zmo" id="plf-Pw-kiz"/>
                     </connections>
                 </viewController>

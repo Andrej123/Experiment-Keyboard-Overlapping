@@ -14,11 +14,14 @@ class SimpleViewController: UIViewController {
 	@IBOutlet fileprivate var greenView: UIView!
 	@IBOutlet fileprivate var orangeView: UIView!
 	@IBOutlet fileprivate var textField: UITextField!
+	@IBOutlet fileprivate var redViewHeightConstraiont: NSLayoutConstraint!
 
 
+	fileprivate let offset: CGFloat = 10
 
     override func viewDidLoad() {
         super.viewDidLoad()
+		redViewHeightConstraiont.constant = offset
 		registerForKeyboardNotifications()
     }
 
@@ -41,35 +44,39 @@ class SimpleViewController: UIViewController {
 // MARK: - Behaviour to prevent keyboard overlapping
 extension SimpleViewController {
 	func registerForKeyboardNotifications() {
-		print("ddd \(#function)")
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeShown), name: .UIKeyboardWillShow, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(notification:)), name: .UIKeyboardWillHide, object: nil)
 	}
 
 	func deregisterFromKeyboardNotifications() {
-		print("ddd \(#function)")
 		NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
 		NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
 	}
 
 	@objc func keyboardWillBeShown(notification: NSNotification) {
-		print("ddd \(#function)")
-		guard let keyboardHeightValue = notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue else {
-			print("ddd Error \(#line), could not get height")
-			return
+		guard let keyboardHeightValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue,
+			let duration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval,
+			let curveRaw = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? UInt else {
+				return
 		}
 		let keyboardHeight = keyboardHeightValue.cgRectValue.height
-		print("ddd keyboardHeight = \(keyboardHeight)")
+		let animationOptions = UIViewAnimationOptions(rawValue: curveRaw)
+		UIView.animate(withDuration: duration, delay: 0, options: animationOptions, animations: {
+			self.redViewHeightConstraiont.constant = keyboardHeight + self.offset
+			self.view.layoutIfNeeded()
+		}, completion: nil)
 	}
 
 	@objc func keyboardWillBeHidden(notification: NSNotification) {
-		print("ddd \(#function)")
-		guard let keyboardHeightValue = notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue else {
-			print("ddd Error \(#line), could not get height")
-			return
+		guard let duration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? Double,
+			let curveRaw = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? UInt else {
+				return
 		}
-		let keyboardHeight = keyboardHeightValue.cgRectValue.height
-		print("ddd keyboardHeight = \(keyboardHeight)")
+		let animationOptions = UIViewAnimationOptions(rawValue: curveRaw)
+		UIView.animate(withDuration: duration, delay: 0, options: animationOptions, animations: {
+			self.redViewHeightConstraiont.constant = self.offset
+			self.view.layoutIfNeeded()
+		})
 	}
 
 }
