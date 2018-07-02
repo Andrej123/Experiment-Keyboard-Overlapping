@@ -25,7 +25,7 @@ class SimpleViewController: UIViewController {
 		registerForKeyboardNotifications()
     }
 
-	@IBAction fileprivate func button1Tapped() {
+	@IBAction fileprivate func addAccessoryTapped() {
 		let frame = CGRect(x: 0, y: 0, width: 300, height: 30)
 		let accesoryLabel = UILabel(frame: frame)
 		accesoryLabel.text = "Hello! Accessory! 😎"
@@ -36,12 +36,12 @@ class SimpleViewController: UIViewController {
 
 	}
 
-	@IBAction fileprivate func button2Tapped() {
+	@IBAction fileprivate func removeAccessoryTapped() {
 		textField.inputAccessoryView = nil
 		textField.reloadInputViews()
 	}
 
-	@IBAction fileprivate func button3Tapped() {
+	@IBAction fileprivate func dismissKeybaordTapped() {
 		textField.resignFirstResponder()
 	}
 
