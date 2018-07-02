@@ -16,7 +16,6 @@ class SimpleViewController: UIViewController {
 	@IBOutlet fileprivate var keyboardFrameMatchingView: UIView!
 	@IBOutlet fileprivate var keyboardFrameMatchingViewHeightConstraint: NSLayoutConstraint!
 
-
 	fileprivate let offset: CGFloat = 10
 	fileprivate var keyboardAvoider: KeyboardAvoider?
 
@@ -24,13 +23,6 @@ class SimpleViewController: UIViewController {
         super.viewDidLoad()
 		keyboardAvoider = KeyboardAvoider(keyboardFrameMatchingViewHeightConstraint: keyboardFrameMatchingViewHeightConstraint, superview: view)
     }
-
-
-	deinit {
-		let vc = String(describing: type(of: self))
-		print("deinit \(vc)")
-	}
-
 
 	@IBAction fileprivate func addAccessoryTapped() {
 		let frame = CGRect(x: 0, y: 0, width: 300, height: 30)
@@ -40,7 +32,6 @@ class SimpleViewController: UIViewController {
 		accesoryLabel.textAlignment = .center
 		textField.inputAccessoryView = accesoryLabel
 		textField.reloadInputViews()
-
 	}
 
 	@IBAction fileprivate func removeAccessoryTapped() {
