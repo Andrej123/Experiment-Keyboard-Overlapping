@@ -26,15 +26,27 @@ class SimpleViewController: UIViewController {
     }
 
 	@IBAction fileprivate func button1Tapped() {
-		print("ddd \(#function)")
+		let frame = CGRect(x: 0, y: 0, width: 300, height: 30)
+		let accesoryLabel = UILabel(frame: frame)
+		accesoryLabel.text = "Hello! Accessory! 😎"
+		accesoryLabel.backgroundColor = .magenta
+		accesoryLabel.textAlignment = .center
+		textField.inputAccessoryView = accesoryLabel
+		textField.reloadInputViews()
+
 	}
 
 	@IBAction fileprivate func button2Tapped() {
-		print("ddd \(#function)")
+		textField.inputAccessoryView = nil
+		textField.reloadInputViews()
 	}
 
 	@IBAction fileprivate func button3Tapped() {
 		textField.resignFirstResponder()
+	}
+
+	deinit {
+		deregisterFromKeyboardNotifications()
 	}
 
 }
